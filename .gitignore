@@ -10,3 +10,6 @@ target/
 WebContent/
 flaws.json
 .vscode/settings.json
+devops-scanner-java.jar
+results.json
+srcclr.yml
