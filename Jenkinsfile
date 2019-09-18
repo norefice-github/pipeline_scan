@@ -70,9 +70,9 @@ pipeline {
             }
         }
     }
-	post {
-	    always {
-	      archiveArtifacts artifacts: 'results.json', fingerprint: true
-	    }
+	// post {
+	//     always {
+	//       archiveArtifacts artifacts: 'results.json', fingerprint: true
+	//     }
 	}
 }
