@@ -17,10 +17,9 @@ pipeline {
 		stage('Veracode DevOps Scan') {
             steps {
 				sh 'ls -a'
-				sh 'whoami'
-                // sh 'curl https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip'
-				sh 'ls -R'
-                // sh 'unzip devops-scanner-java-LATEST.zip devops-scanner-java.jar'
+                sh 'curl https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip'
+				sh 'ls -a'
+                sh 'unzip devops-scanner-java-LATEST.zip devops-scanner-java.jar'
 				// sh 'ls -a'
                 sh 'java -jar devops-scanner-java.jar \
                     --api_id "${VERACODE_API_ID}" \
