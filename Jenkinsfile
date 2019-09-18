@@ -21,7 +21,7 @@ pipeline {
                     --api_id "${VERACODE_API_ID}" \
                     --api_secret_key "${VERACODE_API_SECRET}" \
                     --project_name "verademo" \
-                    --j target/veradeom.war'
+                    -j target/veradeom.war'
 			}
 		}
         // stage('Greenlight Example') {
