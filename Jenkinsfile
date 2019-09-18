@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                bat 'mvn package'
+                sh 'mvn package'
             }
         }
         stage('Test') {
@@ -15,13 +15,13 @@ pipeline {
         }
 		stage('Veracode DevOps Scan') {
       steps {
-        - sh `curl -O https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip`
-        - sh `unzip devops-scanner-java-LATEST.zip devops-scanner-java.jar`
-        - sh `java -jar devops-scanner-java.jar \
+        - sh 'curl -O https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip'
+        - sh 'unzip devops-scanner-java-LATEST.zip devops-scanner-java.jar'
+        - sh 'java -jar devops-scanner-java.jar \
           --api_id "${VERACODE_API_ID}" \
           --api_secret_key "${VERACODE_API_SECRET}" \
           --project_name "verademo" \
-          --j target/veradeom.war
+          --j target/veradeom.war'
 		}
         // stage('Greenlight Example') {
 		//     steps {
