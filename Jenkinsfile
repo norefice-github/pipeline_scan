@@ -20,6 +20,7 @@ pipeline {
 		}
 		stage('Veracode DevOps Scan') {
             steps {
+				sh 'ls -a'
                 sh 'curl -O https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip'
                 sh 'unzip devops-scanner-java-LATEST.zip devops-scanner-java.jar'
                 sh 'java -jar devops-scanner-java.jar \
