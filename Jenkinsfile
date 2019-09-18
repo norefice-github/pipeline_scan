@@ -14,7 +14,9 @@ pipeline {
             }
         }
 		stage('Devops Scan') {
-			
+			steps {
+				echo 'Devops Scan'
+			}
 		}
         // stage('Greenlight Example') {
 		//     steps {
