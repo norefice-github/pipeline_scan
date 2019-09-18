@@ -16,6 +16,7 @@ pipeline {
 		stage('Devops Scan') {
 			steps {
 				echo 'Devops Scan'
+				bat 'java -jar devops-scanner-java.jar --api_id "${VERACODE_API_ID}" --api_secret_key "${VERACODE_API_KEY}" --project_name "verademo" -j target/verademo.war'
 			}
 		}
         // stage('Greenlight Example') {
