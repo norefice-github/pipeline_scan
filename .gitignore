@@ -12,3 +12,4 @@ flaws.json
 .vscode/settings.json
 results.json
 srcclr.yml
+devops-scanner-java.jar
