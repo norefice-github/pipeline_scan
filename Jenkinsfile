@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-				sh 'ls -a'
+				sh 'ls -R'
                 echo 'Building..'
                 sh 'mvn package'
             }
