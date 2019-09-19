@@ -17,15 +17,15 @@ pipeline {
 		stage('Veracode DevOps Scan') {
             steps {
 				sh 'ls -a'
-                sh 'curl -O https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip'
-				sh 'ls -a'
-                sh 'unzip devops-scanner-java-LATEST.zip devops-scanner-java.jar'
+                // sh 'curl -O https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip'
 				// sh 'ls -a'
-                sh 'java -jar devops-scanner-java.jar \
-                    --api_id "${VERACODE_API_ID}" \
-                    --api_secret_key "${VERACODE_API_SECRET}" \
-                    --project_name "verademo" \
-                    -j target/verademo.war'
+                // sh 'unzip devops-scanner-java-LATEST.zip devops-scanner-java.jar'
+				// sh 'ls -a'
+                // sh 'java -jar devops-scanner-java.jar \
+                    // --api_id "${VERACODE_API_ID}" \
+                    // --api_secret_key "${VERACODE_API_SECRET}" \
+                    // --project_name "verademo" \
+                    // -j target/verademo.war'
 			}
 		}
         stage('Deploy') {
