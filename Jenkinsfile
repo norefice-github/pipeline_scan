@@ -11,7 +11,7 @@ pipeline {
 		stage('SCA') {
 			steps {
 				sh 'ls -a'
-				// sh 'curl -sSL https://download.sourceclear.com/ci.sh | sh'
+				sh 'curl -sSL https://download.sourceclear.com/ci.sh | sh'
 			}
 		}
 		stage('Veracode DevOps Scan') {
@@ -31,9 +31,9 @@ pipeline {
             }
         }
     }
-	// post {
-	//     always {
-	//       archiveArtifacts artifacts: 'results.json', fingerprint: true
-	//     }
-	// }
+	post {
+	    always {
+	      archiveArtifacts artifacts: 'results.json', fingerprint: true
+	    }
+	}
 }
