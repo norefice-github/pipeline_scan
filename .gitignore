@@ -13,3 +13,4 @@ flaws.json
 results.json
 srcclr.yml
 devops-scanner-java.jar
+agent_scan.sh
