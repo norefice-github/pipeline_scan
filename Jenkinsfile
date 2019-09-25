@@ -10,8 +10,8 @@ pipeline {
         }
 		stage('SCA') {
 			steps {
-				echo 'ts'
-				// sh 'curl -sSL https://download.sourceclear.com/ci.sh | sh'
+				// echo 'ts'
+				sh 'curl -sSL https://download.sourceclear.com/ci.sh | sh'
 			}
 		}
 		stage('Veracode DevOps Scan') {
