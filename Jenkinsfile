@@ -8,12 +8,11 @@ pipeline {
                 sh 'mvn package'
             }
         }
-		stage('SCA') {
-			steps {
-				// echo 'ts'
-				sh 'curl -sSL https://download.sourceclear.com/ci.sh | sh'
-			}
-		}
+		// stage('SCA') {
+		// 	steps {
+		// 		sh 'curl -sSL https://download.sourceclear.com/ci.sh | sh'
+		// 	}
+		// }
 		stage('Veracode DevOps Scan') {
             steps {
                 sh 'curl -O https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip'
