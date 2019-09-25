@@ -10,7 +10,7 @@ pipeline {
         }
 		stage('SCA') {
 			steps {
-				sh 'ts'
+				echo 'ts'
 				// sh 'curl -sSL https://download.sourceclear.com/ci.sh | sh'
 			}
 		}
