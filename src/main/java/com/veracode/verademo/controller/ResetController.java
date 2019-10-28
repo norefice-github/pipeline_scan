@@ -177,6 +177,8 @@ public class ResetController {
 				// Add a random number of comment
 				int count = rand.nextInt(6); // (between 0 and 6)
 
+				int bad_count = rand.nextInt(3);
+
 				for (int j = 0; j < count; j++) {
 					// Get the array offset for a random user, except admin who's offset 0.
 					int randomUserOffset = rand.nextInt(users.length - 2) + 1;

@@ -21,7 +21,9 @@ pipeline {
                     --api_id "${VERACODE_API_ID}" \
                     --api_secret_key "${VERACODE_API_SECRET}" \
                     --project_name "verademo" \
-                    -j target/verademo.war'
+                    -j target/verademo.war \
+                    --fail_on_severity="Very High, High"'
+
 			}
 		}
         stage('Deploy') {
