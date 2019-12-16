@@ -1,46 +1,25 @@
----
-image: docker-ro.laputa.veracode.io/agora/buildbox:centos7-m1-java8-latest
+image: nmichalov/veracode-tools
 
 stages:
     - build
     - scan
 
-maven:
+package:
     stage: build
     script:
-        - yum -y install maven
-        - mvn compile package
+        - mvn package
     artifacts:
         paths:
             - target/verademo.war
-
-development-upload-for-sast:
-    stage: scan
-    only:
-        - development
-    script:
-        - java -jar $HOME/helpers/VeracodeJavaAPI.jar -vid ${TEAM_ANALYSISCENTER_ID} -vkey ${TEAM_ANALYSISCENTER_KEY}
-          -action UploadAndScan -appname "Verademo" -createprofile false -autoscan true -sandboxname "gitlab-development"
-          -filepath ./target/verademo.war -version "Job ${CI_JOB_ID} in pipeline ${CI_PIPELINE_ID}"
-    allow_failure: true
     
-release-upload-for-sast:
-    stage: scan
-    only:
-        - release
-    script:
-        - java -jar $HOME/helpers/VeracodeJavaAPI.jar -vid ${TEAM_ANALYSISCENTER_ID} -vkey ${TEAM_ANALYSISCENTER_KEY}
-          -action UploadAndScan -appname "Verademo" -createprofile false -autoscan true -sandboxname "gitlab-release"
-          -filepath ./target/verademo.war -version "Job ${CI_JOB_ID} in pipeline ${CI_PIPELINE_ID}"
-    allow_failure: true
-    
-policy-upload-for-sast:
+veracode-policy-scan:
     stage: scan
     only:
         - schedules
         - master
+    before_script:
+        - wget -q -O veracode-wrapper.jar https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/${VERACODE_WRAPPER_VERSION}/vosp-api-wrappers-java-${VERACODE_WRAPPER_VERSION}.jar
     script:
-        - java -jar $HOME/helpers/VeracodeJavaAPI.jar -vid ${TEAM_ANALYSISCENTER_ID} -vkey ${TEAM_ANALYSISCENTER_KEY}
-          -action UploadAndScan -appname "Verademo" -createprofile false -autoscan true
-          -filepath ./target/verademo.war -version "Job ${CI_JOB_ID} in pipeline ${CI_PIPELINE_ID}"
-          -scantimeout 15
+        - java -jar veracode-wrapper.jar -vid ${TEAM_ANALYSISCENTER_ID} -vkey ${TEAM_ANALYSISCENTER_KEY}
+          -action UploadAndScan -appname "${CI_PROJECT_NAME}" -createprofile true -autoscan true
+          -filepath veracode.zip -version "job ${CI_JOB_ID} in pipeline ${CI_PIPELINE_ID}"
