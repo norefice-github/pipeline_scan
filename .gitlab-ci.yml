@@ -31,10 +31,10 @@ devops-scan:
     script:
        - curl -O https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip
        - unzip -o devops-scanner-java-LATEST.zip devops-scanner-java.jar
-       - java -jar devops-scanner-java.jar \
-                    --api_id ${API_ID} \
-                    --api_secret_key ${API_KEY} \
-                    --project_name ${PROJECT_NAME} \
+       - java -jar devops-scanner-java.jar 
+                    --api_id ${API_ID} 
+                    --api_secret_key ${API_KEY} 
+                    --project_name ${PROJECT_NAME} 
                     -j target/verademo.war 
 sca-scan:
     stage: sca
