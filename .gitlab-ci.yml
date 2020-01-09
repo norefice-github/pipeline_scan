@@ -4,8 +4,8 @@ stages:
     - build
     # - policy
     - greenlight
-    - sca
-    - devops
+    # - sca
+    # - devops
 
 package:
     stage: build
@@ -41,27 +41,27 @@ greenlight-scan:
       --project_name "${CI_PROJECT_NAME}"
       --project_url "${CI_PROJECT_URL}"
       --project_ref "${CI_COMMIT_REF_NAME}"
-sca-scan:
-    stage: sca
-    allow_failure: true
-    only:
-        - schedules
-        - master
-    script:
-        - curl -sSL https://download.sourceclear.com/ci.sh | sh
+# sca-scan:
+#     stage: sca
+#     allow_failure: true
+#     only:
+#         - schedules
+#         - master
+#     script:
+#         - curl -sSL https://download.sourceclear.com/ci.sh | sh
         
-devops-scan:   
-    stage: devops
-    allow_failure: true
-    only:
-       - schedules
-       - master
-    script:
-       - curl -O https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip
-       - unzip -o devops-scanner-java-LATEST.zip devops-scanner-java.jar
-       - java -jar devops-scanner-java.jar 
-                    --api_id ${API_ID} 
-                    --api_secret_key ${API_KEY} 
-                    --project_name ${PROJECT_NAME} 
-                    -j target/verademo.war 
+# devops-scan:   
+#     stage: devops
+#     allow_failure: true
+#     only:
+#        - schedules
+#        - master
+#     script:
+#        - curl -O https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip
+#        - unzip -o devops-scanner-java-LATEST.zip devops-scanner-java.jar
+#        - java -jar devops-scanner-java.jar 
+#                     --api_id ${API_ID} 
+#                     --api_secret_key ${API_KEY} 
+#                     --project_name ${PROJECT_NAME} 
+#                     -j target/verademo.war 
 
