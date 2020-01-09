@@ -36,6 +36,8 @@ greenlight-scan:
     - java -jar gl-scanner-java.jar
       --api_id "${API_ID}"
       --api_secret_key "${API_KEY}"
+      --source_dir "src/main/java"
+      --build_dir "target/classes"
       --project_name "${CI_PROJECT_NAME}"
       --project_url "${CI_PROJECT_URL}"
       --project_ref "${CI_COMMIT_REF_NAME}"
