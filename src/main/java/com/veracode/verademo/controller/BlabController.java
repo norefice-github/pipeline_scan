@@ -569,10 +569,10 @@ public class BlabController {
 			connect = DriverManager.getConnection(Constants.create().getJdbcConnectionString());
 
 			/* START BAD CODE */
-			Class<?> cmdClass = Class.forName("com.veracode.verademo.commands." + ucfirst(command) + "Command");
-			BlabberCommand cmdObj = (BlabberCommand) cmdClass.getDeclaredConstructor(Connection.class, String.class)
-					.newInstance(connect, username);
-			cmdObj.execute(blabberUsername);
+			// Class<?> cmdClass = Class.forName("com.veracode.verademo.commands." + ucfirst(command) + "Command");
+			// BlabberCommand cmdObj = (BlabberCommand) cmdClass.getDeclaredConstructor(Connection.class, String.class)
+			// 		.newInstance(connect, username);
+			// cmdObj.execute(blabberUsername);
 			/* END BAD CODE */
 
 			nextView = "redirect:blabbers";

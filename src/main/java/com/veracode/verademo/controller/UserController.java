@@ -429,7 +429,7 @@ public class UserController {
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 			/* START BAD CODE */
-			message.setSubject("New user registered: " + username);
+			// message.setSubject("New user registered: " + username);
 			message.setSubject("New user registered: " + username);
 			/* END BAD CODE */
 

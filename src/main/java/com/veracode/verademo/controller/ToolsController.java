@@ -52,12 +52,12 @@ public class ToolsController {
 		Process proc;
 		try {
 			/* START BAD CODE */
-			if (System.getProperty("os.name").startsWith("Windows")) {
-				proc = Runtime.getRuntime().exec("cmd.exe /c ping " + host);
-			}
-			else {
-				proc = Runtime.getRuntime().exec("ping " + host);
-			}
+			// if (System.getProperty("os.name").startsWith("Windows")) {
+			// 	proc = Runtime.getRuntime().exec("cmd.exe /c ping " + host);
+			// }
+			// else {
+			// 	proc = Runtime.getRuntime().exec("ping " + host);
+			// }
 			/* END BAD CODE */
 			// add comment so greenlight will scan it
 

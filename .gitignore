@@ -12,10 +12,6 @@ flaws.json
 .vscode/settings.json
 results.json
 srcclr.yml
-<<<<<<< HEAD
 devops-scanner-*
-=======
-devops-scanner-java*
->>>>>>> master
 gl-scanner*
 agent_scan.sh
