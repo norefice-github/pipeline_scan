@@ -3,9 +3,7 @@ image: nmichalov/veracode-tools
 stages:
     - build
     # - policy
-    # - greenlight
-    - sca
-    - devops
+    - devops-security
 
 package:
     stage: build
@@ -24,25 +22,9 @@ package:
     #     - java -jar /veracode/veracode-wrapper.jar -vid ${API_ID} -vkey ${API_KEY}
     #       -action uploadandscan -appname "${PROJECT_NAME}" -autoscan true -createprofile false
     #       -version "job ${CI_JOB_ID} in pipeline ${CI_PIPELINE_ID}" -filepath target/verademo.war
-# greenlight-scan:
-#   stage: greenlight
-#   artifacts:
-#     name: ${PROJECT_NAME}_${}_${CI_COMMIT_SHA}_greenlight-results
-#     paths:
-#       - results.json
-  # script:
-  #   - curl -O https://downloads.veracode.com/securityscan/gl-scanner-java-LATEST.zip
-  #   - unzip gl-scanner-java-LATEST.zip gl-scanner-java.jar
-  #   - java -jar gl-scanner-java.jar
-  #     --api_id "${API_ID}"
-  #     --api_secret_key "${API_KEY}"
-  #     --source_dir "src/main/java"
-  #     --build_dir "target/classes/com"
-  #     --project_name "${CI_PROJECT_NAME}"
-  #     --project_url "${CI_PROJECT_URL}"
-  #     --project_ref "${CI_COMMIT_REF_NAME}"
+
 sca-scan:
-    stage: sca
+    stage: devops-security
     allow_failure: true
     only:
         - schedules
@@ -51,7 +33,7 @@ sca-scan:
         - curl -sSL https://download.sourceclear.com/ci.sh | sh
         
 devops-scan:   
-    stage: devops
+    stage: devops-security
     allow_failure: true
     only:
        - schedules

@@ -12,6 +12,6 @@ flaws.json
 .vscode/settings.json
 results.json
 srcclr.yml
-devops-scanner-java.jar
-devops-scanner-java-LATEST.zip
+devops-scanner-java*
+gl-scanner*
 agent_scan.sh
