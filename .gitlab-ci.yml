@@ -2,7 +2,7 @@ image: nmichalov/veracode-tools
 
 stages:
     - build
-    # - policy
+    # - policy-scan
     - devops-security
 
 package:
@@ -13,15 +13,15 @@ package:
         paths:
             - target/verademo.war
     
-#veracode-scan:
-    # stage: policy
-    # only:
-    #     - schedules
-    #     - master
-    # script:
-    #     - java -jar /veracode/veracode-wrapper.jar -vid ${API_ID} -vkey ${API_KEY}
-    #       -action uploadandscan -appname "${PROJECT_NAME}" -autoscan true -createprofile false
-    #       -version "job ${CI_JOB_ID} in pipeline ${CI_PIPELINE_ID}" -filepath target/verademo.war
+policy-scan:
+    stage: policy-scan
+    only:
+        - schedules
+        - master
+    script:
+        - java -jar /veracode/veracode-wrapper.jar -vid ${API_ID} -vkey ${API_KEY}
+          -action uploadandscan -appname "${PROJECT_NAME}" -autoscan true -createprofile false
+          -version "job ${CI_JOB_ID} in pipeline ${CI_PIPELINE_ID}" -filepath target/verademo.war
 
 sca-scan:
     stage: devops-security
