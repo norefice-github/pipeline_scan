@@ -542,6 +542,7 @@ public class BlabController {
 		logger.info("Entering processBlabbers");
 
 		String username = (String) httpRequest.getSession().getAttribute("username");
+		// add comment so greenlight will scan it
 		// Ensure user is logged in
 		if (username == null) {
 			logger.info("User is not Logged In - redirecting...");

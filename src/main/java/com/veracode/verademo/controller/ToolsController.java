@@ -59,6 +59,7 @@ public class ToolsController {
 				proc = Runtime.getRuntime().exec("ping " + host);
 			}
 			/* END BAD CODE */
+			// add comment so greenlight will scan it
 
 			InputStreamReader isr = new InputStreamReader(proc.getInputStream());
 			BufferedReader br = new BufferedReader(isr);
