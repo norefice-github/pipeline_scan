@@ -26,14 +26,9 @@ policy-scan:
 
 greenlight_job:
   stage: greenlight
-  dependencies:
-    - package
-  artifacts:
-    name: ${CI_PROJECT_NAME}_${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHA}_greenlight-results
-    paths:
-      - results.json
-    expire_in: 1 week
-    when: always
+  only:
+      - schedules
+      - master
   script:
     - curl -O https://downloads.veracode.com/securityscan/gl-scanner-java-LATEST.zip
     - unzip gl-scanner-java-LATEST.zip gl-scanner-java.jar
