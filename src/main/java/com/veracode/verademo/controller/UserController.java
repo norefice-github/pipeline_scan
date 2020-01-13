@@ -430,6 +430,7 @@ public class UserController {
 
 			/* START BAD CODE */
 			message.setSubject("New user registered: " + username);
+			message.setSubject("New user registered: " + username);
 			/* END BAD CODE */
 
 			message.setText("A new VeraDemo user registered: " + username);

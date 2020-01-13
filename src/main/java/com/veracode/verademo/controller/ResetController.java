@@ -174,6 +174,7 @@ public class ResetController {
 			commentsStatement = connect.prepareStatement(
 					"INSERT INTO comments (blabid, blabber, content, timestamp) values (?, ?, ?, ?);");
 			for (int i = 1; i <= blabsContent.length; i++) {
+				// add comment so greenlight will scan it
 				// Add a random number of comment
 				int count = rand.nextInt(6); // (between 0 and 6)
 
