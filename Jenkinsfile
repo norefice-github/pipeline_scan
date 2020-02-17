@@ -15,14 +15,15 @@ pipeline {
 		}
 		stage('Veracode Pipeline Scan') {
             steps {
-                sh 'curl -O https://downloads.veracode.com/securityscan/pipeline-scanner-java-LATEST.zip'
-                sh 'unzip -o pipeline-scanner-java-LATEST.zip pipeline-scanner-java.jar'
-                sh 'java -jar pipeline-scanner-java.jar \
-                    --api_id "${VERACODE_API_ID}" \
-                    --api_secret_key "${VERACODE_API_SECRET}" \
+                sh 'curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
+                sh 'unzip -o pipeline-scan-LATEST.zip pipeline-scan.jar'
+                sh 'java -jar pipeline-scan.jar \
+                    --veracode_api_id "${VERACODE_API_ID}" \
+                    --veracode_api_key "${VERACODE_API_SECRET}" \
                     --project_name "verademo" \
-                    -j target/verademo.war \
-                    --fail_on_severity="Very High, High"'
+                    --file target/verademo.war \
+                    --fail_on_severity="Very High, High" \
+                    --json_output_file="baseline.json"'
 
 			}
 		}
