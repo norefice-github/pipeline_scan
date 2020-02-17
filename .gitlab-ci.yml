@@ -45,5 +45,7 @@ pipeline-scan:
               --api_id ${API_ID} 
               --api_secret_key ${API_KEY} 
               --project_name ${PROJECT_NAME} 
-              -j target/verademo.war 
+              --file target/verademo.war
+              --fail_on_severity="Very High, High"
+              --json_output_file="baseline.json" 
 
