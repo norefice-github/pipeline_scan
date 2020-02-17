@@ -42,8 +42,8 @@ pipeline-scan:
        - curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
        - unzip -o pipeline-scan-LATEST.zip pipeline-scan.jar
        - java -jar pipeline-scan.jar 
-              --api_id ${API_ID} 
-              --api_secret_key ${API_KEY} 
+              --veracode_api_id ${API_ID} 
+              --veracode_api_key ${API_KEY} 
               --project_name ${PROJECT_NAME} 
               --file target/verademo.war
               --fail_on_severity="Very High, High"
