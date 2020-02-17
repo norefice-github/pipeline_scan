@@ -39,9 +39,9 @@ pipeline-scan:
        - schedules
        - master
     script:
-       - curl -O https://downloads.veracode.com/securityscan/pipeline-scanner-java-LATEST.zip
-       - unzip -o pipeline-scanner-java-LATEST.zip pipeline-scanner-java.jar
-       - java -jar pipeline-scanner-java.jar 
+       - curl -O https://downloads.veracode.com/securityscan/pipeline-scan-java-LATEST.zip
+       - unzip -o pipeline-scan-java-LATEST.zip pipeline-scan-java.jar
+       - java -jar pipeline-scan-java.jar 
               --api_id ${API_ID} 
               --api_secret_key ${API_KEY} 
               --project_name ${PROJECT_NAME} 
