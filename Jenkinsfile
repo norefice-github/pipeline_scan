@@ -13,11 +13,11 @@ pipeline {
 				sh 'curl -sSL https://download.sourceclear.com/ci.sh | sh'
 			}
 		}
-		stage('Veracode DevOps Scan') {
+		stage('Veracode Pipeline Scan') {
             steps {
-                sh 'curl -O https://downloads.veracode.com/securityscan/devops-scanner-java-LATEST.zip'
-                sh 'unzip -o devops-scanner-java-LATEST.zip devops-scanner-java.jar'
-                sh 'java -jar devops-scanner-java.jar \
+                sh 'curl -O https://downloads.veracode.com/securityscan/pipeline-scanner-java-LATEST.zip'
+                sh 'unzip -o pipeline-scanner-java-LATEST.zip pipeline-scanner-java.jar'
+                sh 'java -jar pipeline-scanner-java.jar \
                     --api_id "${VERACODE_API_ID}" \
                     --api_secret_key "${VERACODE_API_SECRET}" \
                     --project_name "verademo" \
