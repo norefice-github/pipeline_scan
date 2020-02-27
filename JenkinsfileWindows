@@ -2,10 +2,10 @@ pipeline {
     agent any-with-jdk8-maven-curl-unzip
 
     stages {
-        stage('Maven Build') {
+        stage('Build') {
             steps {
                 echo 'Building..'
-                - sh 'maven clean verify'
+
 		powershell 'mvn package'
             }
         }
