@@ -1,5 +1,5 @@
 pipeline {
-    agent any-with-jdk8-maven-curl-unzip
+    agent any
 
     stages {
         stage('Build') {
