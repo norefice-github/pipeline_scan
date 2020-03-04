@@ -4,21 +4,43 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger:
-- master
-
 pool:
-  vmImage: 'ubuntu-latest'
-
+  name: Azure Pipelines
+  demands: maven
+​
+#Your build pipeline references an undefined variable named ‘Parameters.mavenPOMFile’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+​
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- task: CmdLine@2
+- script: 'wget https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
+  displayName: 'Command Line Script'
+​
+- task: ExtractFiles@1
+  displayName: 'Extract files '
   inputs:
-    script: 'java -jar $(System.DefaultWorkingDirectory)/pipeline-scan.jar --fail_on_severity="Very High, High, Medium" -vid $API_ID -vkey $API_SECRET_KEY -f  $(system.defaultworkingdirectory)/*.jar'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    archiveFilePatterns: 'pipeline-scan-LATEST.zip'
+    destinationFolder: '$(System.DefaultWorkingDirectory)'
+    cleanDestinationFolder: false
+​
+- task: Maven@3
+  displayName: 'Maven pom.xml'
+  inputs:
+    mavenPomFile: '$(Parameters.mavenPOMFile)'
+​
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**/*.jar'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
+​
+- script: 'java -jar $(System.DefaultWorkingDirectory)/pipeline-scan.jar --fail_on_severity="Very High, High, Medium" -vid $API_ID -vkey $API_SECRET_KEY -f  $(system.defaultworkingdirectory)/*.jar'
+  displayName: 'Command Line Script'
+  env:
+    API_ID: 08ddce4e64fb9a6a2cf0d2569e304c4a
+    API_SECRET_KEY: 1b0d280b5d691463ade81c4d90ff6c93a4f0edefcc9f84a7deebc9f57050b27c45016bba5c63669d10ee79d9c5da84144674e2ebbab979e72421fa2b564ab0ab
+​
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
