@@ -13,15 +13,10 @@ pool:
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
-- task: PowerShell@2
+
+- task: CmdLine@2
   inputs:
-    targetType: 'inline'
-    script: |
-      curl  https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
-                        Expand-Archive -Force -Path pipeline-scan.zip -DestinationPath veracode_scanner
-                        java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '$(VERACODE_API_ID)' \
-                        --veracode_api_key '$(VERACODE_API_KEY)' \
-                        --file target/verademo.war
+    script: 'java -jar $(System.DefaultWorkingDirectory)/pipeline-scan.jar --fail_on_severity="Very High, High, Medium" -vid $API_ID -vkey $API_SECRET_KEY -f  $(system.defaultworkingdirectory)/*.jar'
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
