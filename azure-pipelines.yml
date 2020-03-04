@@ -12,6 +12,46 @@ pool:
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      pipeline {
+          agent any
+      
+          stages {
+              stage('Build') {
+                  steps {
+                      echo 'Building..'
+      
+      		powershell 'mvn package'
+                  }
+              }
+      	
+      
+      		stage('Veracode Pipeline Scan') {
+                  steps {
+                      powershell """
+                        curl  https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
+                        Expand-Archive -Force -Path pipeline-scan.zip -DestinationPath veracode_scanner
+                        java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '${VERACODE_API_ID}' \
+                        --veracode_api_key '${VERACODE_API_KEY}' \
+                        --file target/verademo.war
+                      """
+      			}
+      		}
+              stage('Deploy') {
+                  steps {
+                      echo 'Deploying....'
+                  }
+              }
+          }
+      	post {
+      	    always {
+      	      archiveArtifacts artifacts: 'results.json', fingerprint: true
+      	    }
+      	}
+      }
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
