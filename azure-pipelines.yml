@@ -8,7 +8,6 @@ pool:
   name: Azure Pipelines
   demands: maven
 ​
-steps:
 - script: 'wget https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
   displayName: 'Command Line Script'
 ​
