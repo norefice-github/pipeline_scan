@@ -30,4 +30,4 @@ steps:
       Write-Output 'Unzip PipelineScanner'
       Expand-Archive -force /pipeline-scan-LATEST.zip
       Write-Output 'Run PipelineScanner'
-      java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f $(build.artifactstagingdirectory)\*.war
+      java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f $(build.artifactstagingdirectory)\target\*.war
