@@ -1,24 +1,15 @@
-# Starter pipeline
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+trigger:
+- master
 
 pool:
-  name: Azure Pipelines
-  demands: maven
-​
-  steps:
-- script: 'wget https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
-  displayName: 'Command Line Script'
+  vmImage: 'ubuntu-latest'
 
-- task: ExtractFiles@1
-  displayName: 'Extract files '
-  inputs:
-    archiveFilePatterns: 'pipeline-scan-LATEST.zip'
-    destinationFolder: '$(System.DefaultWorkingDirectory)'
-    cleanDestinationFolder: false
-​
+steps:
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -29,19 +20,13 @@ pool:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
-​
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+- task: PowerShell@2
   inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**/*.jar'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-  condition: succeededOrFailed()
-​
-- script: 'java -jar $(System.DefaultWorkingDirectory)/pipeline-scan.jar --fail_on_severity="Very High, High, Medium" -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f  $(system.defaultworkingdirectory)/*.jar'
-  displayName: 'Command Line Script'
-​
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+    targetType: 'inline'
+    script: |
+      Write-Output 'Download PipelineScanner'
+      (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
+      Write-Output 'Unzip PipelineScanner'
+      Expand-Archive -force /pipeline-scan-LATEST.zip
+      Write-Output 'Run PipelineScanner'
+      java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $API_ID -vkey $API_KEY -f $(build.artifactstagingdirectory)\*.war
