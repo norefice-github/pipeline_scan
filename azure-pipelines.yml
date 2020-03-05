@@ -12,6 +12,13 @@ pool:
 - script: 'wget https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
   displayName: 'Command Line Script'
 
+- task: ExtractFiles@1
+  displayName: 'Extract files '
+  inputs:
+    archiveFilePatterns: 'pipeline-scan-LATEST.zip'
+    destinationFolder: '$(System.DefaultWorkingDirectory)'
+    cleanDestinationFolder: false
+​
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -22,18 +29,6 @@ pool:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
-​
-- task: ExtractFiles@1
-  displayName: 'Extract files '
-  inputs:
-    archiveFilePatterns: 'pipeline-scan-LATEST.zip'
-    destinationFolder: '$(System.DefaultWorkingDirectory)'
-    cleanDestinationFolder: false
-​
-- task: Maven@3
-  displayName: 'Maven pom.xml'
-  inputs:
-    mavenPomFile: '$(Parameters.mavenPOMFile)'
 ​
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
