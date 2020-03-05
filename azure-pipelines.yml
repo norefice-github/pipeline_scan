@@ -20,6 +20,7 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -29,4 +30,4 @@ steps:
       Write-Output 'Unzip PipelineScanner'
       Expand-Archive -force /pipeline-scan-LATEST.zip
       Write-Output 'Run PipelineScanner'
-      java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $API_ID -vkey $API_KEY -f $(build.artifactstagingdirectory)\*.war
+      java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f $(build.artifactstagingdirectory)\*.war
