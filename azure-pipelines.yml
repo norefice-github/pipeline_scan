@@ -8,8 +8,20 @@ pool:
   name: Azure Pipelines
   demands: maven
 ​
+  steps:
 - script: 'wget https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
   displayName: 'Command Line Script'
+
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'package'
 ​
 - task: ExtractFiles@1
   displayName: 'Extract files '
