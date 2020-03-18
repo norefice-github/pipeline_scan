@@ -10,6 +10,9 @@ pipeline {
             }
         }
 		stage('SCA') {
+		environment {
+			SRCCLR_API_TOKEN = credentials('SRCCLR_API_TOKEN')
+		}
 			steps {
 				powershell """
                   Set-ExecutionPolicy AllSigned -Scope Process -Force
@@ -18,8 +21,9 @@ pipeline {
 		  $Env:SRCCLR_API_TOKEN
                   srcclr scan .
 		        """
-        	}
-		 }
+        		}
+		    }
+		 
 		stage('Veracode Pipeline Scan') {
             steps {
                 powershell """
