@@ -1,4 +1,4 @@
-apipeline {
+pipeline {
     agent any
 
     stages {
@@ -14,6 +14,7 @@ apipeline {
 				powershell """
                   Set-ExecutionPolicy AllSigned -Scope Process -Force
                   iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1')) 
+		  srcclr activate
 		  access_token=$Env:SRCCLR_API_TOKEN
                   srcclr scan .
 		        """
