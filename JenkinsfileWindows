@@ -18,7 +18,6 @@ pipeline {
                   Set-ExecutionPolicy AllSigned -Scope Process -Force
                   iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1')) 
 		  srcclr activate
-		  $Env:SRCCLR_API_TOKEN
                   srcclr scan .
 		        """
         		}
