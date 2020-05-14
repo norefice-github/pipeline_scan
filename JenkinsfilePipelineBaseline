@@ -28,15 +28,15 @@ pipeline {
 			}
 		    
 		steps {	
-      // Copy baseline from previous build
-      copyArtifacts(projectName: "$JOB_NAME", selector: lastSuccessful(stable: true), filter: 'baseline.json',
-      script {
-        ref = sh(script: 'git rev-parse HEAD', returnStdout:true).trim()
-        basesline = ''
-        if (fileExists('baseline.json')) {
-           baseline = '--baseline_file baseline.json'
-        }
-      }
+        // Copy baseline from previous build
+        copyArtifacts(projectName: "$JOB_NAME", selector: lastSuccessful(stable: true), filter: 'baseline.json',
+        script {
+            ref = sh(script: 'git rev-parse HEAD', returnStdout:true).trim()
+            basesline = ''
+            if (fileExists('baseline.json')) {
+            baseline = '--baseline_file baseline.json'
+            }
+        
 			powershell """
 			curl  https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
 			Expand-Archive -Force -Path pipeline-scan.zip -DestinationPath veracode_scanner
