@@ -23,55 +23,56 @@ pipeline {
 		    }
 		 
 		stage('Veracode Pipeline Scan') {
-		environment {
-			SERVICE_CREDS = credentials('VERACODE_API_ACCOUNT')
-			}
+		    environment {
+			    SERVICE_CREDS = credentials('VERACODE_API_ACCOUNT')
+		    }
 		    
-		steps {	
-        // Copy baseline from previous build
-        copyArtifacts(projectName: "$JOB_NAME", selector: lastSuccessful(stable: true), filter: 'baseline.json',
-        script {
-            ref = sh(script: 'git rev-parse HEAD', returnStdout:true).trim()
-            basesline = ''
-            if (fileExists('baseline.json')) {
-            baseline = '--baseline_file baseline.json'
-            }
-        
-			powershell """
-			curl  https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
-			Expand-Archive -Force -Path pipeline-scan.zip -DestinationPath veracode_scanner
-			java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '${SERVICE_CREDS_USR}' \
-			--veracode_api_key '${SERVICE_CREDS_PSW}' \
-			--file target/verademo.war
-      
-			"""
-			}
-		}
-    
-    stage('Store Baseline') {
-        steps {
+            steps {	
+                // Copy baseline from previous build
+                copyArtifacts(projectName: "$JOB_NAME", selector: lastSuccessful(stable: true), filter: 'baseline.json',
                 script {
-                    try {
-                        input(message: 'Store results as baseline for future scans?', ok: 'Yes')
-                        sh 'cp baseline.json build-baseline.json'
-                        sh 'cp results.json baseline.json'
-                    } catch (err) {
+                    ref = sh(script: 'git rev-parse HEAD', returnStdout:true).trim()
+                    basesline = ''
+                    if (fileExists('baseline.json')) {
+                    baseline = '--baseline_file baseline.json'
+                    }
+                
+                    powershell """
+                    curl  https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
+                    Expand-Archive -Force -Path pipeline-scan.zip -DestinationPath veracode_scanner
+                    java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '${SERVICE_CREDS_USR}' \
+                    --veracode_api_key '${SERVICE_CREDS_PSW}' \
+                    --file target/verademo.war
+            
+                """
+                }
+		    }
+        }
+    
+        stage('Store Baseline') {
+            steps {
+                    script {
+                        try {
+                            input(message: 'Store results as baseline for future scans?', ok: 'Yes')
+                            sh 'cp baseline.json build-baseline.json'
+                            sh 'cp results.json baseline.json'
+                        } catch (err) {
 
+                        }
                     }
                 }
-            }
-    
-    
-    }
+        }
+
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                }
+        }
+	
+        post {
+            always {
+            archiveArtifacts artifacts: 'results.json', fingerprint: true
             }
         }
     }
-	post {
-	    always {
-	      archiveArtifacts artifacts: 'results.json', fingerprint: true
-	    }
-	}
 }
