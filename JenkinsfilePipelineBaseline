@@ -29,7 +29,7 @@ pipeline {
 		    
             steps {	
                 // Copy baseline from previous build
-                copyArtifacts(projectName: "$JOB_NAME", selector: lastSuccessful(stable: true), filter: 'baseline.json',
+                copyArtifacts(projectName: "$JOB_NAME", selector: lastSuccessful(stable: true), filter: 'baseline.json', target: '.', optional: true)
                 script {
                     ref = sh(script: 'git rev-parse HEAD', returnStdout:true).trim()
                     basesline = ''
