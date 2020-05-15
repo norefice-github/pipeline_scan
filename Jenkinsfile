@@ -21,7 +21,7 @@ pipeline {
 			--veracode_api_key '${SERVICE_CREDS_PSW}' \
 			--file target/verademo.war \
 			--json_output_file="baseline.json"
-			$LASTEXITCODE = 0
+			cmd /c "exit 0"
 			"""
 		}
 	}	    
