@@ -8,19 +8,23 @@ pipeline {
                 powershell 'mvn package'
             }
         }
-	stage('Veracode Pipeline Scan') {
-            steps {
-                sh 'curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
-                sh 'unzip -o pipeline-scan-LATEST.zip pipeline-scan.jar'
-                sh 'java -jar pipeline-scan.jar \
-                    --veracode_api_id "${VERACODE_API_ID}" \
-                    --veracode_api_key "${VERACODE_API_SECRET}" \
-                    --project_name "verademo" \
-                    --file target/verademo.war \
-                    --json_output_file="baseline.json"'
+		stage('Veracode Pipeline Scan') {
+			environment {
+				SERVICE_CREDS = credentials('VERACODE_API_ACCOUNT')
+				}
 
-			}
-		}
+			steps {	
+				powershell """
+				curl  https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
+				Expand-Archive -Force -Path pipeline-scan.zip -DestinationPath veracode_scanner
+				java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '${SERVICE_CREDS_USR}' \
+				--veracode_api_key '${SERVICE_CREDS_PSW}' \
+				--file target/verademo.war \
+				--json_output_file="baseline.json"
+				"""
+				}
+		    
+			
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
