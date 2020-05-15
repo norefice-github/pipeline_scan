@@ -54,8 +54,8 @@ pipeline {
                     script {
                         try {
                             input(message: 'Store results as baseline for future scans?', ok: 'Yes')
-                            sh 'cp baseline.json build-baseline.json'
-                            sh 'cp results.json baseline.json'
+                            Copy-Item baseline.json -Destination build-baseline.json
+                            Copy-Item results.json -Destination baseline.json
                         } catch (err) {
 
                         }
