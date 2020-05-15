@@ -34,7 +34,7 @@ pipeline {
 			java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '${SERVICE_CREDS_USR}' \
 			--veracode_api_key '${SERVICE_CREDS_PSW}' \
 			--file target/verademo.war \
-			--fail_on_cwe "0"
+			--fail_on_cwe "10000"
 			"""
 			}
 		}
