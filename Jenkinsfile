@@ -8,12 +8,7 @@ pipeline {
                 sh 'mvn package'
             }
         }
-		stage('SCA') {
-			steps {
-				sh 'curl -sSL https://download.sourceclear.com/ci.sh | sh'
-			}
-		}
-		stage('Veracode Pipeline Scan') {
+	stage('Veracode Pipeline Scan') {
             steps {
                 sh 'curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
                 sh 'unzip -o pipeline-scan-LATEST.zip pipeline-scan.jar'
