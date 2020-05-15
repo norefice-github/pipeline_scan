@@ -34,7 +34,7 @@ pipeline {
     }
 	post {
 	    always {
-	      archiveArtifacts artifacts: 'results.json', fingerprint: true
+	      archiveArtifacts artifacts: 'baseline.json', fingerprint: true
 	    }
 	}
 }
