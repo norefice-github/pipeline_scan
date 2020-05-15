@@ -22,7 +22,6 @@ pipeline {
                     --veracode_api_key "${VERACODE_API_SECRET}" \
                     --project_name "verademo" \
                     --file target/verademo.war \
-                    --fail_on_severity="Very High, High" \
                     --json_output_file="baseline.json"'
 
 			}
