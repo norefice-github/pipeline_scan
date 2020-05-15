@@ -1,3 +1,6 @@
+// Windows based Jenkins file that automated SCA and Pipeline scan. Add a SRCCLR_API_TOKEN and VERACODE_API_ACCOUNT API ID/KEY.
+// Builds a baseline file and each build
+
 pipeline {
     agent any
 
