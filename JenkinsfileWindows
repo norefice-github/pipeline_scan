@@ -33,7 +33,8 @@ pipeline {
 			Expand-Archive -Force -Path pipeline-scan.zip -DestinationPath veracode_scanner
 			java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '${SERVICE_CREDS_USR}' \
 			--veracode_api_key '${SERVICE_CREDS_PSW}' \
-			--file target/verademo.war
+			--file target/verademo.war \
+			--fail_on_cwe ""
 			"""
 			}
 		}
