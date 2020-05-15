@@ -31,8 +31,7 @@ pipeline {
                 // Copy baseline from previous build
                 copyArtifacts(projectName: "$JOB_NAME", selector: lastSuccessful(stable: true), filter: 'baseline.json', target: '.', optional: true)
                 script {
-                    ref = sh(script: 'git rev-parse HEAD', returnStdout:true).trim()
-                    basesline = ''
+                    baseline = ''
                     if (fileExists('baseline.json')) {
                     baseline = '--baseline_file baseline.json'
                     }
@@ -43,6 +42,7 @@ pipeline {
                     java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '${SERVICE_CREDS_USR}' \
                     --veracode_api_key '${SERVICE_CREDS_PSW}' \
                     --file target/verademo.war
+		    $baseline
             
                 """
                 }
