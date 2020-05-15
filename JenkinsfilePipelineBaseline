@@ -53,9 +53,11 @@ pipeline {
             steps {
                     script {
                         try {
-                            input(message: 'Store results as baseline for future scans?', ok: 'Yes')
-                            Copy-Item baseline.json -Destination build-baseline.json
-                            Copy-Item results.json -Destination baseline.json
+				powershell """
+				    input(message: 'Store results as baseline for future scans?', ok: 'Yes')
+				    Copy-Item baseline.json -Destination build-baseline.json
+				    Copy-Item results.json -Destination baseline.json
+				 """
                         } catch (err) {
 
                         }
