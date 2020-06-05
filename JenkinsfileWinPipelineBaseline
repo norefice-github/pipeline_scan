@@ -1,6 +1,8 @@
 // Windows based Jenkins file that automates Veracode SCA and Pipeline scan. Add a SRCCLR_API_TOKEN and VERACODE_API_ACCOUNT API ID/KEY.
-// Builds a baseline file and each build
-// Will gate to break build if any net new flaws exist
+// Script is based off of documentation (https://help.veracode.com/reader/tS9CaFwL4_lbIEWWomsJoA/MVXQBY1PzfrTXGd6V~ZgxA) 
+// and has been converted to work on a Windows based Jenkins machine. 
+// Build a results.json file and compares against baseline.json file. If any net new flaws exist, it will break build. 
+// Note: You must first run a scan to generate a baseline file. 
 
 pipeline {
     agent any
