@@ -1,3 +1,10 @@
+// Windows based Jenkins file that automates Veracode SCA and Pipeline scan. 
+// Script is based off of documentation (https://help.veracode.com/reader/tS9CaFwL4_lbIEWWomsJoA/MVXQBY1PzfrTXGd6V~ZgxA) 
+// and has been converted to work on a Windows based Jenkins machine. 
+// Add a SRCCLR_API_TOKEN and VERACODE_API_ACCOUNT API ID/KEY.
+// Stores results.json file
+
+
 pipeline {
     agent any
 
@@ -34,7 +41,7 @@ pipeline {
 			java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '${SERVICE_CREDS_USR}' \
 			--veracode_api_key '${SERVICE_CREDS_PSW}' \
 			--file target/verademo.war \
-			--fail_on_cwe "1234"
+			--fail_on_cwe "1234" // can fail on flaw cwe or severity. Reference: https://help.veracode.com/reader/tS9CaFwL4_lbIEWWomsJoA/zjaZE08bAYZVPBWWbgmZvw
 			"""
 			}
 		}
