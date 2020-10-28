@@ -9,48 +9,13 @@ pipeline {
     agent any
 
 	stages 
-	{
-        stage('Build') {
-            steps {
-                echo 'Building..'
-				powershell 'mvn package'
-            }
-		}
-		
-		stage('SCA') {
-		environment {
-			SRCCLR_API_TOKEN = credentials('SRCCLR_API_TOKEN')
+	{		
+	   	stage('Veracode Scan and Break the build by severity') {
+      		environment {
+				SERVICE_CREDS = credentials('VERACODE_API_ACCOUNT')
 			}
 			steps {
-				powershell """
-                  Set-ExecutionPolicy AllSigned -Scope Process -Force
-                  iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1')) 
-                  srcclr scan .
-		        """
-        	}
-		}
-		 
-		stage('Veracode Pipeline Scan') {
-		environment {
-			SERVICE_CREDS = credentials('VERACODE_API_ACCOUNT')
-			}
-		    
-			steps {	
-				powershell """
-				curl  https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip -o pipeline-scan.zip
-				Expand-Archive -Force -Path pipeline-scan.zip -DestinationPath veracode_scanner
-				java -jar veracode_scanner\\pipeline-scan.jar --veracode_api_id '${SERVICE_CREDS_USR}' \
-				--veracode_api_key '${SERVICE_CREDS_PSW}' \
-				--file target/verademo.war \
-				--fail_on_cwe "1234" // can fail on flaw cwe or severity. Reference: https://help.veracode.com/reader/tS9CaFwL4_lbIEWWomsJoA/zjaZE08bAYZVPBWWbgmZvw
-				"""
-			}
-		}
-	
-		
-	
-	   	stage('Veracode Scan and Break the build by severity') {
-      			// Check severity of results
+			// Check severity of results
       			powershell """
 				wget -q -O btbbsseverity.py https://raw.githubusercontent.com/christyson/Veracode-Break-The-Build-By-Severity/master/breakthebuildbyseverity.py'
       				wget -q -O veracode-wrapper.jar https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/${VERACODE_WRAPPER_VERSION}/vosp-api-wrappers-java-${VERACODE_WRAPPER_VERSION}.jar'
@@ -59,18 +24,6 @@ pipeline {
          		"""
       		  	  }
 			}
-		
-		
-		
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
-    }
-	post {
-	    always {
-	      archiveArtifacts artifacts: 'results.json', fingerprint: true
-	    }
 	}
 }
+	
