@@ -53,10 +53,9 @@ pipeline {
       			// Check severity of results
       			powershell """
 				wget -q -O btbbsseverity.py https://raw.githubusercontent.com/christyson/Veracode-Break-The-Build-By-Severity/master/breakthebuildbyseverity.py'
-      			wget -q -O veracode-wrapper.jar https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/${VERACODE_WRAPPER_VERSION}/vosp-api-wrappers-java-${VERACODE_WRAPPER_VERSION}.jar'
+      				wget -q -O veracode-wrapper.jar https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/${VERACODE_WRAPPER_VERSION}/vosp-api-wrappers-java-${VERACODE_WRAPPER_VERSION}.jar'
 
-      			withCredentials([usernamePassword(credentialsId: 'Veracode', passwordVariable: 'VERACODEKEY', usernameVariable: 'VERACODEID')]) {
-           			python3 btbbsseverity.py veracode-wrapper.jar ${VERACODEID} ${VERACODEKEY} -s=${VC_Severity} -b ${VC_Debug} -appname "${VC_ProjectName}" -filepath **/**.war -createprofile true -autoscan true -version ${BUILD_NUMBER}
+           			python3 btbbsseverity.py veracode-wrapper.jar ${SERVICE_CREDS_USR} ${SERVICE_CREDS_PSW} -s=${VC_Severity} -b ${VC_Debug} -appname "${VC_ProjectName}" -filepath target/verademo.war -createprofile true -autoscan true -version ${BUILD_NUMBER}
          		"""
       		  	  }
 			}
